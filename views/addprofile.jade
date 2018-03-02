@@ -1,0 +1,36 @@
+extends layout
+
+block content
+	h3= title
+	form#form_add_profile(name="addprofile", method="post", action="/postprofile")
+		span First Name
+		span &nbsp;
+		input#input_first_name(type="text", placeholder="firstName", name="firstName")
+		br
+		br
+		span Surname
+		span &nbsp;
+		input#input_surname(type="text", placeholder="surname", name="surname")
+		br
+		br
+		span Tag
+		span &nbsp;
+		input#input_tag(type="text", placeholder="tag", name="tag")
+		br
+		br
+		span Region
+		span &nbsp;
+		input#input_region(type="text", placeholder="region", name="region")
+		br
+		br																					     
+		span Main
+		span &nbsp;
+		input#input_main(type="text", placeholder="main", name="main")
+		br						
+		br
+		span Secondary
+		span &nbsp;
+		input#input_secondary(type="text", placeholder="secondary", name="secondary")
+		br
+		br
+		button#submit_profile(type="submit") submit
