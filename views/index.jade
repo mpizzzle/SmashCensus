@@ -1,6 +1,7 @@
 extends layout
 
 block content
-  p Welcome to #{title}!
-  p Go to /profiles to view all profiles
-  p Go to /addprofile to add a new profile
+  h3 Welcome to #{title}!
+  li: #[span Click] #[a(href="#{link}#{profiles}") here] #[span to view all profiles]
+  li: #[span Click] #[a(href="#{link}#{add}") here] #[span to add a new profile]
+  li: #[span Click] #[a(href="#{link}#{del}") here] #[span to remove a profile]
