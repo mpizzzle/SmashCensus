@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 var mongodb = require('mongodb');
 
+var url = 'mongodb://localhost:27017/SmashCensus';
 var href = "https://smashcensus.localtunnel.me";
 var profilesRoute = '/profiles';
 var addProfileRoute = '/addprofile';
-var deleteProfileRoute = '/users';
+var deleteProfileRoute = '/delprofile'
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,7 +16,6 @@ router.get('/', function(req, res, next) {
 
 router.get(profilesRoute, function(req, res, next) {
 	var MongoClient = mongodb.MongoClient;
-	var url = 'mongodb://localhost:27017/SmashCensus';
 
 	MongoClient.connect(url, function(err, db) {
 		if (err) {
@@ -45,17 +45,14 @@ router.get(profilesRoute, function(req, res, next) {
 });
 
 router.get(addProfileRoute, function(req, res) {
-	res.render('addprofile', {title : 'Add new profile'});
+	res.render('addprofile', {title: 'Add new profile'});
 });
 
-router.post('/postprofile', function(req, res){
+router.post('/postprofile', function(req, res) {
 	 
 	// Get a Mongo client to work with the Mongo server
 	var MongoClient = mongodb.MongoClient;
-	
-	// Define where the MongoDB server is
-	var url = 'mongodb://localhost:27017/SmashCensus';
-	
+
 	// Connect to the server
 	MongoClient.connect(url, function(err, db){
 		if (err) {
@@ -82,6 +79,35 @@ router.post('/postprofile', function(req, res){
 			}
 
 				// Close the database
+				db.close();
+			});
+		}
+	});
+});
+
+router.get(deleteProfileRoute, function(req, res) {
+	res.render('delprofile', {title: 'Remove profile'});
+});
+
+router.post('/deleteprofile', function(req, res) {
+	var MongoClient = mongodb.MongoClient;
+
+	MongoClient.connect(url, function(err, db) {
+		if (err) {
+			console.log(err);
+		}
+		else {
+			console.log('Connected to Server');
+			var query = { tag: req.body.tag };
+
+			db.collection('profiles').deleteOne(query, function(err, obj) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					res.redirect('profiles');
+				}
+
 				db.close();
 			});
 		}
