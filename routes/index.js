@@ -6,35 +6,31 @@ var url = 'mongodb://localhost:27017/SmashCensus';
 var href = "https://smashcensus.localtunnel.me";
 var profilesRoute = '/profiles';
 var addProfileRoute = '/addprofile';
-var deleteProfileRoute = '/delprofile'
+var delProfileRoute = '/delprofile';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'SmashCensus', link: href,
-		profiles: profilesRoute, add: addProfileRoute, del: deleteProfileRoute });
+		profiles: profilesRoute, add: addProfileRoute, del: delProfileRoute });
 });
 
 router.get(profilesRoute, function(req, res, next) {
-	var MongoClient = mongodb.MongoClient;
-
-	MongoClient.connect(url, function(err, db) {
+	// Connect to the db server
+	mongodb.MongoClient.connect(url, function(err, db) {
 		if (err) {
 			console.log(err);
-		}
-		else {
+		} else {
 			console.log("Database connection established!");
 
 			var collection = db.collection('profiles');
 			collection.find({}).toArray(function(err, result) {
 				if (err) {
 					res.send(err);
-				}
-				else if (result.length) {
+				} else if (result.length) {
 					res.render('profiles', {
 					"profiles" : result
 					});
-				}
-				else {
+				} else {
 					res.send('No profiles found!');
 				}
 
@@ -49,14 +45,10 @@ router.get(addProfileRoute, function(req, res) {
 });
 
 router.post('/postprofile', function(req, res) {
-	 
-	// Get a Mongo client to work with the Mongo server
-	var MongoClient = mongodb.MongoClient;
-
-	// Connect to the server
-	MongoClient.connect(url, function(err, db){
+	// Connect to the db server
+	mongodb.MongoClient.connect(url, function(err, db){
 		if (err) {
-			console.log('Unable to connect to the Server:', err);
+			console.log(err);
 		} else {
 			console.log('Connected to Server');
 
@@ -64,19 +56,18 @@ router.post('/postprofile', function(req, res) {
 			var collection = db.collection('profiles');
 
 			// Get the profile passed from the form
-			var profile1 = {profile: req.body.profile, firstName: req.body.firstName,
+			var p = {profile: req.body.profile, firstName: req.body.firstName,
 				surname: req.body.surname, tag: req.body.tag, region: req.body.region,
 				main: req.body.main, secondary: req.body.secondary};
 
 			// Insert the profile into the database
-			collection.insert([profile1], function (err, result){
-			if (err) {
-				console.log(err);
-			} else {
-
-				// Redirect to the updated student list
-				res.redirect("profiles");
-			}
+			collection.insert([p], function (err, result){
+				if (err) {
+					console.log(err);
+				} else {
+					// Redirect to the updated profile list
+					res.redirect("profiles");
+				}
 
 				// Close the database
 				db.close();
@@ -85,26 +76,23 @@ router.post('/postprofile', function(req, res) {
 	});
 });
 
-router.get(deleteProfileRoute, function(req, res) {
+router.get(delProfileRoute, function(req, res) {
 	res.render('delprofile', {title: 'Remove profile'});
 });
 
 router.post('/deleteprofile', function(req, res) {
-	var MongoClient = mongodb.MongoClient;
-
-	MongoClient.connect(url, function(err, db) {
+	// Connect to the db server
+	mongodb.MongoClient.connect(url, function(err, db) {
 		if (err) {
 			console.log(err);
-		}
-		else {
+		} else {
 			console.log('Connected to Server');
 			var query = { tag: req.body.tag };
 
 			db.collection('profiles').deleteOne(query, function(err, obj) {
 				if (err) {
 					console.log(err);
-				}
-				else {
+				} else {
 					res.redirect('profiles');
 				}
 
