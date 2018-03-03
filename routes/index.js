@@ -7,97 +7,74 @@ var href = "https://smashcensus.localtunnel.me";
 var profilesRoute = '/profiles';
 var addProfileRoute = '/addprofile';
 var delProfileRoute = '/delprofile';
+var db;
 
-/* GET home page. */
+mongodb.MongoClient.connect(url, function(err, database) {
+	if (err) {
+		console.log(err);
+	} else {
+		db = database;
+	}
+});
+
+/* home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'SmashCensus', link: href,
 		profiles: profilesRoute, add: addProfileRoute, del: delProfileRoute });
 });
 
+/* view profiles page */
 router.get(profilesRoute, function(req, res, next) {
-	// Connect to the db server
-	mongodb.MongoClient.connect(url, function(err, db) {
+	var collection = db.collection('profiles');
+	collection.find({}).toArray(function(err, result) {
 		if (err) {
-			console.log(err);
+			res.send(err);
+		} else if (result.length) {
+			res.render('profiles', { "profiles" : result });
 		} else {
-			console.log("Database connection established!");
-
-			var collection = db.collection('profiles');
-			collection.find({}).toArray(function(err, result) {
-				if (err) {
-					res.send(err);
-				} else if (result.length) {
-					res.render('profiles', {
-					"profiles" : result
-					});
-				} else {
-					res.send('No profiles found!');
-				}
-
-				db.close();
-			});
+			res.send('No profiles found!');
 		}
 	});
 });
 
+/* add profile page */
 router.get(addProfileRoute, function(req, res) {
 	res.render('addprofile', {title: 'Add new profile'});
 });
 
 router.post('/postprofile', function(req, res) {
-	// Connect to the db server
-	mongodb.MongoClient.connect(url, function(err, db){
+	// Get the profile collection
+	var collection = db.collection('profiles');
+
+	// Get the profile passed from the form
+	var p = {profile: req.body.profile, firstName: req.body.firstName,
+		surname: req.body.surname, tag: req.body.tag, region: req.body.region,
+		main: req.body.main, secondary: req.body.secondary};
+
+	// Insert the profile into the database
+	collection.insert([p], function (err, result) {
 		if (err) {
 			console.log(err);
 		} else {
-			console.log('Connected to Server');
-
-			// Get the profile collection
-			var collection = db.collection('profiles');
-
-			// Get the profile passed from the form
-			var p = {profile: req.body.profile, firstName: req.body.firstName,
-				surname: req.body.surname, tag: req.body.tag, region: req.body.region,
-				main: req.body.main, secondary: req.body.secondary};
-
-			// Insert the profile into the database
-			collection.insert([p], function (err, result){
-				if (err) {
-					console.log(err);
-				} else {
-					// Redirect to the updated profile list
-					res.redirect("profiles");
-				}
-
-				// Close the database
-				db.close();
-			});
+			// Redirect to the updated profile list
+			res.redirect("profiles");
 		}
 	});
 });
 
+/* delete profile page */
 router.get(delProfileRoute, function(req, res) {
 	res.render('delprofile', {title: 'Remove profile'});
 });
 
 router.post('/deleteprofile', function(req, res) {
-	// Connect to the db server
-	mongodb.MongoClient.connect(url, function(err, db) {
+	var query = { tag: req.body.tag };
+
+	db.collection('profiles').deleteOne(query, function(err, obj) {
 		if (err) {
 			console.log(err);
 		} else {
-			console.log('Connected to Server');
-			var query = { tag: req.body.tag };
-
-			db.collection('profiles').deleteOne(query, function(err, obj) {
-				if (err) {
-					console.log(err);
-				} else {
-					res.redirect('profiles');
-				}
-
-				db.close();
-			});
+			res.redirect('profiles');
 		}
 	});
 });
