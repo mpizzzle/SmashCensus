@@ -1,15 +1,15 @@
 var express = require('express');
-var router = express.Router();
 var mongodb = require('mongodb');
 
-var url = 'mongodb://localhost:27017/SmashCensus';
-var href = "https://smashcensus.localtunnel.me";
+var router = express.Router();
+var mongourl = 'mongodb://localhost:27017/SmashCensus';
+var smashurl = "https://smashcensus.localtunnel.me";
 var profilesRoute = '/profiles';
 var addProfileRoute = '/addprofile';
 var delProfileRoute = '/delprofile';
 var db;
 
-mongodb.MongoClient.connect(url, function(err, database) {
+mongodb.MongoClient.connect(mongourl, function(err, database) {
 	if (err) {
 		console.log(err);
 	} else {
@@ -17,16 +17,16 @@ mongodb.MongoClient.connect(url, function(err, database) {
 	}
 });
 
-/* home page. */
+/* home page */
 router.get('/', function(req, res, next) {
-	res.render('index', { title: 'SmashCensus', link: href,
+	res.render('index', { title: 'SmashCensus', link: smashurl,
 		profiles: profilesRoute, add: addProfileRoute, del: delProfileRoute });
 });
 
 /* view profiles page */
 router.get(profilesRoute, function(req, res, next) {
-	var collection = db.collection('profiles');
-	collection.find({}).toArray(function(err, result) {
+	// Get all profiles
+	db.collection('profiles').find({}).toArray(function(err, result) {
 		if (err) {
 			res.send(err);
 		} else if (result.length) {
@@ -43,16 +43,13 @@ router.get(addProfileRoute, function(req, res) {
 });
 
 router.post('/postprofile', function(req, res) {
-	// Get the profile collection
-	var collection = db.collection('profiles');
-
 	// Get the profile passed from the form
 	var p = {profile: req.body.profile, firstName: req.body.firstName,
 		surname: req.body.surname, tag: req.body.tag, region: req.body.region,
 		main: req.body.main, secondary: req.body.secondary};
 
 	// Insert the profile into the database
-	collection.insert([p], function (err, result) {
+	db.collection('profiles').insert([p], function (err, result) {
 		if (err) {
 			console.log(err);
 		} else {
@@ -70,6 +67,7 @@ router.get(delProfileRoute, function(req, res) {
 router.post('/deleteprofile', function(req, res) {
 	var query = { tag: req.body.tag };
 
+	// Delete profile that matches tag
 	db.collection('profiles').deleteOne(query, function(err, obj) {
 		if (err) {
 			console.log(err);
