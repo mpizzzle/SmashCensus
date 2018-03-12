@@ -30,7 +30,7 @@ router.get(profilesRoute, function(req, res, next) {
 		if (err) {
 			res.send(err);
 		} else if (result.length) {
-			res.render('profiles', { "profiles" : result });
+			res.json(result);
 		} else {
 			res.send('No profiles found!');
 		}

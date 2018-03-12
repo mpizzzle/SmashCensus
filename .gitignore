@@ -1,5 +1,7 @@
-bin/
+smash-census-server/bin/
+smash-census-server/node_modules/
+smash-census-server/package-lock.json
+smash-census-server/bin
+smash-census-server/node_modules/
+smash-census-server/package-lock.json
 db/
-node_modules/
-
-package-lock.json
