@@ -4,4 +4,5 @@ smash-census-server/package-lock.json
 smash-census-client/bin/
 smash-census-client/node_modules/
 smash-census-client/package-lock.json
+smash-census-client/src/client.min.js
 db/
