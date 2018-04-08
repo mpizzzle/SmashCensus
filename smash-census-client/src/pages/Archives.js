@@ -6,7 +6,7 @@ export default class Archives extends React.Component {
   render() {
     const { query } = this.props.location;
     const { params } = this.props;
-    const { Profile } = params;
+    const { profile } = params;
     const { date, filter } = query;
 
     const Profiles = [
@@ -23,7 +23,7 @@ export default class Archives extends React.Component {
     return (
       <div>
         <h1>Archives</h1>
-        Profile: {Profile}, date: {date}, filter: {filter}
+        profile: {profile}, date: {date}, filter: {filter}
         <div class="row">{Profiles}</div>
       </div>
     );
