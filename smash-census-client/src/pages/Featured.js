@@ -15,28 +15,19 @@ export default class Featured extends React.Component {
 }
 
   render() {
-    this.state.profiles.map(profile => <Profile key={profile} title={profile}/> );
+    const Profiles = this.state.profiles.map(profile => <Profile key={profile._id} title={profile.tag}/> );
+    const randomAd = Math.round(Math.random() * 10) + 1;
 
-    const adText = [
-      "Ad spot #1",
-      "Ad spot #2",
-      "Ad spot #3",
-      "Ad spot #4",
-      "Ad spot #5",
-    ];
-
-    const randomAd = adText[Math.round( Math.random() * (adText.length-1) )];
     return (
       <div>
         <div class="row">
           <div class="col-lg-12">
             <div class="well text-center">
-              {randomAd}
+              Random Ad #{randomAd}
             </div>
           </div>
         </div>
-
-        <div class="row">{this.state.profiles.map(profile => profile.tag)}</div>
+        <div class="row">{Profiles}</div>
       </div>
     );
   }

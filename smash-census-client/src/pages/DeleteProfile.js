@@ -2,7 +2,7 @@ import React from "react";
 
 import Profile from "../components/Profile";
 
-export default class Archives extends React.Component {
+export default class DeleteProfile extends React.Component {
   render() {
     const { query } = this.props.location;
     const { params } = this.props;
@@ -17,12 +17,12 @@ export default class Archives extends React.Component {
       "Fake Profile",
       "Partial Profile",
       "American Profile",
-      "Mexican Profile",
+      "Delete Profile",
     ].map((title, i) => <Profile key={i} title={title}/> );
 
     return (
       <div>
-        <h1>Archives</h1>
+        <h1>Delete Profile</h1>
         <div class="row">{Profiles}</div>
       </div>
     );

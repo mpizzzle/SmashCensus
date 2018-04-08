@@ -19,6 +19,8 @@ export default class Nav extends React.Component {
     const { collapsed } = this.state;
     const featuredClass = location.pathname === "/" ? "active" : "";
     const archivesClass = location.pathname.match(/^\/archives/) ? "active" : "";
+    const addProfileClass = location.pathname.match(/^\/addprofile/) ? "active" : "";
+    const delProfileClass = location.pathname.match(/^\/delprofile/) ? "active" : "";
     const settingsClass = location.pathname.match(/^\/settings/) ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
 
@@ -31,6 +33,8 @@ export default class Nav extends React.Component {
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
             </button>
           </div>
           <div class={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
@@ -40,6 +44,12 @@ export default class Nav extends React.Component {
               </li>
               <li class={archivesClass}>
                 <Link to="archives" onClick={this.toggleCollapse.bind(this)}>Archives</Link>
+              </li>
+              <li class={addProfileClass}>
+                <Link to="addprofile" onClick={this.toggleCollapse.bind(this)}>Add Profile</Link>
+              </li>
+              <li class={delProfileClass}>
+                <Link to="delprofile" onClick={this.toggleCollapse.bind(this)}>Delete Profile</Link>
               </li>
               <li class={settingsClass}>
                 <Link to="settings" onClick={this.toggleCollapse.bind(this)}>Settings</Link>
