@@ -17,12 +17,6 @@ mongodb.MongoClient.connect(mongourl, function(err, database) {
 	}
 });
 
-/* home page */
-router.get('/', function(req, res, next) {
-	res.render('index', { title: 'SmashCensus', link: smashurl,
-		profiles: profilesRoute, add: addProfileRoute, del: delProfileRoute });
-});
-
 /* view profiles page */
 router.get(profilesRoute, function(req, res, next) {
 	// Get all profiles
@@ -35,11 +29,6 @@ router.get(profilesRoute, function(req, res, next) {
 			res.send('No profiles found!');
 		}
 	});
-});
-
-/* add profile page */
-router.get(addProfileRoute, function(req, res) {
-	res.render('addprofile', {title: 'Add new profile'});
 });
 
 router.post('/postprofile', function(req, res) {
@@ -57,11 +46,6 @@ router.post('/postprofile', function(req, res) {
 			res.redirect("profiles");
 		}
 	});
-});
-
-/* delete profile page */
-router.get(delProfileRoute, function(req, res) {
-	res.render('delprofile', {title: 'Remove profile'});
 });
 
 router.post('/deleteprofile', function(req, res) {
