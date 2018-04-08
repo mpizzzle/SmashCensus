@@ -3,12 +3,9 @@ var mongodb = require('mongodb');
 
 var router = express.Router();
 var mongourl = 'mongodb://localhost:27017/SmashCensus';
-var smashurl = "https://smashcensus.localtunnel.me";
-var profilesRoute = '/profiles';
-var addProfileRoute = '/addprofile';
-var delProfileRoute = '/delprofile';
 var db;
 
+/* connect to the database specified above */
 mongodb.MongoClient.connect(mongourl, function(err, database) {
 	if (err) {
 		console.log(err);
@@ -17,8 +14,8 @@ mongodb.MongoClient.connect(mongourl, function(err, database) {
 	}
 });
 
-/* view profiles page */
-router.get(profilesRoute, function(req, res, next) {
+/* http GET request to retrieve all profiles in json format */
+router.get('/profiles', function(req, res, next) {
 	// Get all profiles
 	db.collection('profiles').find({}).toArray(function(err, result) {
 		if (err) {
@@ -31,6 +28,7 @@ router.get(profilesRoute, function(req, res, next) {
 	});
 });
 
+/* http POST request to add a profile, request should be in json format */
 router.post('/postprofile', function(req, res) {
 	// Get the profile passed from the form
 	var p = {profile: req.body.profile, firstName: req.body.firstName,
@@ -48,6 +46,7 @@ router.post('/postprofile', function(req, res) {
 	});
 });
 
+/* http POST request to delete a profile, request should be in json format */
 router.post('/deleteprofile', function(req, res) {
 	var query = { tag: req.body.tag };
 
