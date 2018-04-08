@@ -3,21 +3,19 @@ import React from "react";
 import Profile from "../components/Profile";
 
 export default class Featured extends React.Component {
+  constructor() {
+    super();
+    this.state = {profiles: []}
+  }
+
+  componentDidMount() {
+    fetch('/profiles')
+    .then(res => res.json())
+    .then(profiles => this.setState({ profiles }));
+}
+
   render() {
-    const Profiles = [
-      "Some Profile",
-      "Some Other Profile",
-      "Yet Another Profile",
-      "Still More",
-      "Some Profile",
-      "Some Other Profile",
-      "Yet Another Profile",
-      "Still More",
-      "Some Profile",
-      "Some Other Profile",
-      "Yet Another Profile",
-      "Still More",
-    ].map((title, i) => <Profile key={i} title={title}/> );
+    this.state.profiles.map(profile => <Profile key={profile} title={profile}/> );
 
     const adText = [
       "Ad spot #1",
@@ -38,7 +36,7 @@ export default class Featured extends React.Component {
           </div>
         </div>
 
-        <div class="row">{Profiles}</div>
+        <div class="row">{this.state.profiles.map(profile => profile.tag)}</div>
       </div>
     );
   }

@@ -27,6 +27,13 @@ module.exports = {
   devServer: {
     compress: true,
     disableHostCheck: true,
+    proxy: {
+      "/profiles": {
+        "target": "http://localhost:3000",
+        "changeOrigin": true,
+        "secure": false
+      }
+    }
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
