@@ -3,28 +3,60 @@ import React from "react";
 import Profile from "../components/Profile";
 
 export default class AddProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {tag: '', firstName: '', surname: '', region: '', main: '', secondary: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange (event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleSubmit(event) {
+    console.log(this.state);
+    fetch('/postprofile', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(this.state)
+    });
+  }
+
   render() {
-    const { query } = this.props.location;
-    const { params } = this.props;
-    const { profile } = params;
-    const { date, filter } = query;
-
-    const Profiles = [
-      "Some Profile",
-      "Some Other Profile",
-      "Yet Another Profile",
-      "Still More",
-      "Fake Profile",
-      "Partial Profile",
-      "American Profile",
-      "Add Profile",
-    ].map((title, i) => <Profile key={i} title={title}/> );
-
     return (
-      <div>
-        <h1>AddProfile</h1>
-        <div class="row">{Profiles}</div>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <h1>Add Profile</h1>
+        <label>
+          Tag: <input type="text" name="tag" value={this.state.tag} onChange={this.handleChange} />
+        </label>
+        <br/>
+        <label>
+          First Name: <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
+        </label>
+        <br/>
+        <label>
+          Surname: <input type="text" name="surname" value={this.state.surname} onChange={this.handleChange} />
+        </label>
+        <br/>
+        <label>
+          Region: <input type="text" name="region" value={this.state.region} onChange={this.handleChange} />
+        </label>
+        <br/>
+        <label>
+          Main: <input type="text" name="main" value={this.state.main} onChange={this.handleChange} />
+        </label>
+        <br/>
+        <label>
+          Secondary: <input type="text" name="secondary" value={this.state.secondary} onChange={this.handleChange} />
+        </label>
+        <br/>
+        <input type="submit" value="Add" />
+      </form>
     );
   }
 }
