@@ -6,9 +6,7 @@ export default class DeleteProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {tag: ''};
-
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -28,15 +26,14 @@ export default class DeleteProfile extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div>
         <h1>Delete Profile</h1>
         <label>
-          Tag:
-          <input type="text" value={this.state.tag} onChange={this.handleChange} />
+          Tag: <input type="text" value={this.state.tag} onChange={this.handleChange} />
         </label>
         <br/>
-        <input type="submit" value="Submit" />
-      </form>
+        <a class="btn btn-default" href="#" onClick={this.handleSubmit.bind(this)}>Submit</a>
+      </div>
     );
   }
 }
