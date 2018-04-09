@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router";
 
-import Nav from "../components/Nav";
+import NavBar from "../components/NavBar";
 
 export default class Layout extends React.Component {
   render() {
@@ -11,7 +11,7 @@ export default class Layout extends React.Component {
     };
     return (
       <div className="Layout">
-        <Nav location={location} />
+        <NavBar location={location} />
         <div class="container" style={containerStyle}>
           <div class="row">
             <div class="col-lg-12">

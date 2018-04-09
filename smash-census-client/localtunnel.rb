@@ -1,3 +1,7 @@
+#ignore this script, it's a workaround for an issue to do with localtunnel
+#it will be deleted once we have a public domain up and running
+#https://github.com/localtunnel/localtunnel/issues/81#issuecomment-218320442
+
 require 'optparse'
 
 options = {:subdomain => 'smashcensus', :port => 8081}
