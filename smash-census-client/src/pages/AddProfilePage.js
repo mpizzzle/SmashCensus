@@ -2,7 +2,7 @@ import React from "react";
 
 import Profile from "../components/Profile";
 
-export default class AddProfile extends React.Component {
+export default class AddProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {tag: '', firstName: '', surname: '', region: '', main: '', secondary: ''};

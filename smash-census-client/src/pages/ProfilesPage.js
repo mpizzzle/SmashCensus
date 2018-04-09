@@ -2,7 +2,7 @@ import React from "react";
 
 import Profile from "../components/Profile";
 
-export default class Featured extends React.Component {
+export default class ProfilesPage extends React.Component {
   constructor() {
     super();
     this.state = {profiles: []}

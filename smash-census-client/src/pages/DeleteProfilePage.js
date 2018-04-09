@@ -2,7 +2,7 @@ import React from "react";
 
 import Profile from "../components/Profile";
 
-export default class DeleteProfile extends React.Component {
+export default class DeleteProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {tag: ''};
