@@ -31,17 +31,14 @@ router.get('/profiles', function(req, res, next) {
 /* http POST request to add a profile, request should be in json format */
 router.post('/postprofile', function(req, res) {
   // Get the profile passed from the form
-  var p = {profile: req.body.profile, firstName: req.body.firstName,
-    surname: req.body.surname, tag: req.body.tag, region: req.body.region,
-    main: req.body.main, secondary: req.body.secondary};
+  var p = {firstName: req.body.firstName, surname: req.body.surname,
+           tag: req.body.tag, region: req.body.region,
+           main: req.body.main, secondary: req.body.secondary};
 
   // Insert the profile into the database
   db.collection('profiles').insert([p], function (err, result) {
     if (err) {
       console.log(err);
-    } else {
-      // Redirect to the updated profile list
-      res.redirect("profiles");
     }
   });
 });
@@ -54,8 +51,6 @@ router.post('/deleteprofile', function(req, res) {
   db.collection('profiles').deleteOne(query, function(err, obj) {
     if (err) {
       console.log(err);
-    } else {
-      res.redirect('profiles');
     }
   });
 });
