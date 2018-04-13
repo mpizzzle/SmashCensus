@@ -4,7 +4,7 @@
 
 require 'optparse'
 
-options = {:subdomain => 'smashcensus', :port => 8081}
+options = {:subdomain => 'smashcensus', :port => 8080}
 
 parser = OptionParser.new do|opts|
   opts.banner = "Usage: localtunnel.rb [options]"
