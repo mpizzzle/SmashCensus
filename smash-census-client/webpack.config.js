@@ -1,3 +1,6 @@
+//We'll go through what this config is for later
+//for now work with the assumption that src/client.js is the main program entry point
+
 var debug = process.env.NODE_ENV !== "production";
 var webpack = require('webpack');
 var path = require('path');

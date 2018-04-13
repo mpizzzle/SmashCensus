@@ -1,3 +1,7 @@
+//most of this file was auto generated using the command 'npm init'
+//don't spend too much time trying to figure it out, it is mostly just initializing depencies
+//the important server logic is seperated into index.js
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,10 +10,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var index = require('./index');
-
-//most of this file was auto generated using the command 'npm init'
-//don't spend too much time trying to figure it out, it is mostly just initializing depencies
-//the important server logic is seperated into index.js
 
 var app = express();
 
