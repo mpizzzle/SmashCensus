@@ -10,6 +10,7 @@ module.exports = {
   devtool: debug ? "inline-sourcemap" : false,
   entry: "./client.js",
   mode: 'development',
+  devtool: "eval-source-map",
   module: {
     rules: [
       {
