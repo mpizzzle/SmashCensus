@@ -1,4 +1,3 @@
-smash-census-server/bin/
 smash-census-server/node_modules/
 smash-census-server/package-lock.json
 smash-census-client/bin/
